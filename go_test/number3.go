@@ -1,6 +1,7 @@
 package gotest
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -59,5 +60,10 @@ func HandleFindSubstring(c echo.Context) error {
 	}
 
 	indices := findSubstring(req.S, req.Words)
+	if len(indices) == 0 {
+		log.Println("No substring found matching the given words in the string")
+		return c.JSON(http.StatusNotFound, "No substring found matching the given words in the string")
+	}
+
 	return c.JSON(http.StatusOK, indices)
 }
